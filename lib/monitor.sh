@@ -94,3 +94,15 @@ generate_report() {
             rm -f -- "$old_report"
         done
 }
+
+# Show recent logs, alerts and the system journal
+show_logs() {
+    echo "${BLD}---- Last 20 log lines ($LOG_FILE) ----${RST}"
+    tail -n 20 "$LOG_FILE" 2>/dev/null || echo "No log yet."
+    echo
+    echo "${BLD}---- Alerts ($ALERT_FILE) ----${RST}"
+    tail -n 10 "$ALERT_FILE" 2>/dev/null || echo "No alerts."
+    echo
+    echo "${BLD}---- System journal (lbas) ----${RST}"
+    journalctl -t lbas -n 10 --no-pager 2>/dev/null || echo "journalctl not available."
+}
